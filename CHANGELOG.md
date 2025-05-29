@@ -1,4 +1,9 @@
-# @cadamsdev/conventional-changesets-action-test
+# @cadamsdev/lazy-changesets-action-test
+## 2.1.0
+
+### 🚀 feat
+- Initial release
+
 ## 2.0.2
 
 ### 🛠️ fix
