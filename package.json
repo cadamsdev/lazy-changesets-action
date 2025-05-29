@@ -1,7 +1,7 @@
 {
-  "name": "@cadamsdev/lazy-changesets-action-test",
+  "name": "@cadamsdev/lazy-changesets-action",
   "private": true,
-  "version": "2.0.2",
+  "version": "0.0.0",
   "main": "./dist/index.js",
   "scripts": {
     "type-check": "tsc --noEmit",

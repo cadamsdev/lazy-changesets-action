@@ -1,5 +1,5 @@
 ---
-"@cadamsdev/lazy-changesets-action-test": feat
+"@cadamsdev/lazy-changesets-action": feat
 ---
 
 Initial release
