@@ -134,6 +134,8 @@ jobs:
           CHANGESET_COMMAND: 'npm run changeset'
 ```
 
+3. Setup the [lazy-changesets CLI](https://github.com/cadamsdev/lazy-changesets) in your project:
+
 ## 📝 Changeset Types
 
 | Type     | Emoji | Description              |
