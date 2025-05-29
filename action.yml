@@ -1,0 +1,6 @@
+name: 'Lazy Changesets Action'
+description: 'A GitHub action that helps automate versioning, changelog generation, and publishing node packages inspired by Changesets.'
+
+runs:
+  using: 'node20'
+  main: './dist/index.js'
