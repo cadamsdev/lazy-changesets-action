@@ -1,4 +1,4 @@
 
-  # Conventional Changesets
+  # Lazy Changesets
   - TODO
   
