@@ -1,0 +1,48 @@
+{
+  "name": "@cadamsdev/lazy-changesets-action-test",
+  "private": true,
+  "version": "2.0.2",
+  "main": "./dist/index.js",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "start": "jiti src/index.ts",
+    "build": "npm run type-check && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --minify",
+    "lint": "oxlint --ignore-pattern 'dist/**'",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "changeset": "lazy-changesets"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cadamsdev/lazy-changesets-action-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cadamsdev/lazy-changesets-action/issues"
+  },
+  "homepage": "https://github.com/cadamsdev/lazy-changesets-action#readme",
+  "description": "",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "gray-matter": "^4.0.3",
+    "package-manager-detector": "^1.3.0",
+    "semver": "^7.7.1",
+    "tinyglobby": "^0.2.13"
+  },
+  "devDependencies": {
+    "@cadamsdev/lazy-changesets": "^0.1.0",
+    "@types/node": "^22.15.17",
+    "@types/semver": "^7.7.0",
+    "esbuild": "^0.25.4",
+    "jiti": "^2.4.2",
+    "oxlint": "^0.16.9",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
+  }
+}
