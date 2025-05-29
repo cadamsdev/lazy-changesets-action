@@ -9,7 +9,8 @@
     "build": "npm run type-check && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --minify",
     "lint": "oxlint --ignore-pattern 'dist/**'",
     "format": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest",
+    "changeset": "lazy-changesets"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -34,6 +35,7 @@
     "tinyglobby": "^0.2.13"
   },
   "devDependencies": {
+    "@cadamsdev/lazy-changesets": "^0.1.0",
     "@types/node": "^22.15.17",
     "@types/semver": "^7.7.0",
     "esbuild": "^0.25.4",
