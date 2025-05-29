@@ -2,7 +2,7 @@
 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/cadamsdev/lazy-changesets-action/issues) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![GitHub Tag](https://img.shields.io/github/v/tag/cadamsdev/lazy-changesets-action)
 
-A GitHub action that helps automate versioning and publishing node packages inspired by [Changesets](https://github.com/changesets/changesets) and the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+A GitHub action that helps automate versioning, publishing and creating changelogs for node packages. This tool is heavily inspired by [Changesets](https://github.com/changesets/changesets) and the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
 If you enjoy the tool, please consider giving it a star ⭐️ on GitHub! Also if you find it useful, consider supporting my work by buying me a coffee. Your support helps me continue to improve and maintain the project.
 
@@ -10,19 +10,17 @@ If you enjoy the tool, please consider giving it a star ⭐️ on GitHub! Also i
 
 ## 📚 Table of Contents
 
-- [Lazy Changesets Action](#lazy-changesets-action)
-  - [Table of Contents](#table-of-contents)
-  - [✨ Features](#-features)
-  - [🚀 Usage](#-usage)
-    - [Release Workflow](#release-workflow)
-    - [Pull Request Workflow](#pull-request-workflow)
-  - [📝 Changeset Types](#-changeset-types)
-  - [⚙️ Configuration](#-configuration)
-    - [Inputs](#inputs)
-    - [Output Params](#output-params)
-  - [🔒 Permissions](#-permissions)
-  - [❓ F.A.Q](#-faq)
-    - [What's the difference between this action and the original Changesets action?](#whats-the-difference-between-this-action-and-the-original-changesets-action)
+- [✨ Features](#-features)
+- [🚀 Usage](#-usage)
+  - [Release Workflow](#release-workflow)
+  - [Pull Request Workflow](#pull-request-workflow)
+- [📝 Changeset Types](#-changeset-types)
+- [⚙️ Configuration](#-configuration)
+  - [Inputs](#inputs)
+  - [Output Params](#output-params)
+- [🔒 Permissions](#-permissions)
+- [❓ F.A.Q](#-faq)
+  - [What's the difference between this action and the original Changesets action?](#whats-the-difference-between-this-action-and-the-original-changesets-action)
 
 ## ✨ Features
 
@@ -91,7 +89,7 @@ jobs:
 ### Pull Request Workflow
 
 > [!NOTE]
-> This workflow comments on the pull request and notifies the user to create a changeset if there are no changesets found in the pull request. If changesets are found, it creates a release pull request.
+> This workflow comments on the pull request and notifies the user to create a changeset if there are no changesets found in the pull request.
 
 ![No Changesets Found](/media/no-changesets-found.png)
 
