@@ -128,7 +128,7 @@ jobs:
         run: npm run build
 
       - name: Check for changesets
-        uses: ./
+        uses: cadamsdev/lazy-changesets-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGESET_COMMAND: 'npm run changeset'
