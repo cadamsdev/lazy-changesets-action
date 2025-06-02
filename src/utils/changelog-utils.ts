@@ -9,6 +9,11 @@ export interface PackageMetadata {
   isRoot: boolean;
   isPrivate: boolean;
   packageName: string;
+  dependencyUpdates?: Array<{
+    dependencyName: string;
+    oldVersion: string;
+    newVersion: string;
+  }>;
 }
 
 export const packageMetadata = new Map<string, PackageMetadata>();
@@ -99,6 +104,14 @@ function getChangelogContent(
       content += `- ${entry}\n`;
     });
   });
+
+  if (packageMetaData.dependencyUpdates && packageMetaData.dependencyUpdates.length > 0) {
+    content += `### 📦 Updated Dependencies\n`;
+    packageMetaData.dependencyUpdates.forEach((update) => {
+      content += `- \`${update.dependencyName}\`: \`^${update.oldVersion}\` ➡️ \`^${update.newVersion}\`\n`;
+    });
+    content += `\n`;
+  }
 
   return content;
 }

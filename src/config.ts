@@ -1,9 +1,10 @@
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 
 export interface ChangesetConfig {
   access: 'restricted' | 'public';
   baseBranch: string;
+  updateInternalDependencies: 'patch' | 'minor' | 'major' | 'none';
 }
 
 export function readConfig(): ChangesetConfig {
@@ -25,5 +26,6 @@ export function readConfig(): ChangesetConfig {
     ...config,
     access: config.access || 'restricted',
     baseBranch: config.baseBranch || 'main',
+    updateInternalDependencies: config.updateInternalDependencies || 'patch',
   };
 }
