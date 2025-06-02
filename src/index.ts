@@ -96,8 +96,9 @@ async function onPullRequest() {
       scanDirForPackagePaths();
       const changesetMap = getChangeSetMap(changesetFiles);
       if (changesetMap.size > 0) {
-        applyNewVersion(changesetMap);
-        markdown += generateMarkdown(changesetMap);
+        const config = readConfig();
+        applyNewVersion(changesetMap, config);
+        markdown += generateMarkdown(packageMetadata, changesetMap);
       }
     } else {
       console.log('No changesets found. Creating PR comment...');
@@ -238,7 +239,7 @@ async function handlePublish(config: ChangesetConfig) {
       console.log(`Tag name: ${tagName}`);
       console.log(`Release title: ${title}`);
 
-      const markdown = getMarkdownForEntry(entry);
+      const markdown = getMarkdownForEntry(packageMetadata, entry);
       console.log('Generated markdown:', markdown);
 
       await createGitHubRelease({
@@ -478,7 +479,8 @@ async function handleCreateOrUpdateReleasePR(changesetFiles: string[]) {
     deleteFiles(changesetFiles);
   }
 
-  applyNewVersion(changesetMap, true);
+  const config = readConfig();
+  applyNewVersion(changesetMap, config, true);
 
   const pm = await detect();
 
@@ -506,7 +508,7 @@ async function handleCreateOrUpdateReleasePR(changesetFiles: string[]) {
     commitAllAndPush('Remove changeset files');
   }
 
-  const markdown = generateMarkdown(changesetMap);
+  const markdown = generateMarkdown(packageMetadata, changesetMap);
 
   await createOrUpdatePR({
     title: RELEASE_PR_TITLE,

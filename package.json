@@ -10,7 +10,9 @@
     "lint": "oxlint --ignore-pattern 'dist/**'",
     "format": "prettier --write .",
     "test": "vitest",
-    "changeset": "lazy-changesets"
+    "changeset": "lazy-changesets",
+    "copy-from-test": "rsync -av --exclude='node_modules' --exclude='.git' ../lazy-changesets-action-test/ ./",
+    "copy-to-test": "rsync -av --exclude='node_modules' --exclude='.git' ./ ../lazy-changesets-action-test/"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
