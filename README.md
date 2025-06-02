@@ -211,11 +211,11 @@ In your github repository, go to **Settings > Actions > General**
 
 ## ❓ F.A.Q
 
-### What's the difference between this action and the original Changesets action?
+### What's the difference between this action and the original [Changesets action](https://github.com/changesets/action)?
 
 This action is more opinionated / more batteries included.
 
-- This action doesn't use explicit semver bumps in the changesets (major, minor, patch) but instead uses changeset types (inspired by Conventional Commits). This means you don't have to think about what version bump your changes are. You just need to know what type of change you made. This action will automatically determine the version bump based on the changeset type for you.
+- This action doesn't use explicit semver bumps in the changesets (major, minor, patch) but instead uses changeset types (inspired by [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)). This means you don't have to think about what version bump your changes are. You just need to know what type of change you made. This action will automatically determine the version bump based on the changeset type for you.
 - This action uses changeset types + emojis (breaking changes, fix, feat, chore etc) in the changelogs and/or github releases instead of categorizing the changes based on the version bumps (major, minor, patch)
 - This action will handle updating the lock files (package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb) automatically for you.
 - This action will install the dependencies and build your packages for you. (It'll determine which package manager you're using and run the appropriate commands)
