@@ -42,13 +42,11 @@ If you enjoy the tool, please consider giving it a star ⭐️ on GitHub! Also i
 
 ## 🚀 Usage
 
-### Release Workflow
+1. Create a new workflow file in your repository's `.github/workflows` directory. For example `release.yml` (You can name it anything you like).
+2. Add the following code to the workflow file:
 
 > [!NOTE]
 > This workflow creates a pull request for the release if there are changesets, or publishes the changes if the release PR has been merged.
-
-1. Create a new workflow file in your repository's `.github/workflows` directory. For example `release.yml` (You can name it anything you like).
-2. Add the following code to the workflow file:
 
 ```yaml
 name: Release
@@ -81,20 +79,19 @@ jobs:
 
       - name: Create Release PR or Publish Release
         id: release
-        uses: cadamsdev/lazy-changesets-action@v0
+        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 // v0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-### Pull Request Workflow
+3. Create a new workflow file in your repository's `.github/workflows` directory. For example `pull-request.yml`.
 
 > [!NOTE]
 > This workflow comments on the pull request and notifies the user to create a changeset if there are no changesets found in the pull request.
 
 ![No Changesets Found](/media/no-changesets-found.png)
 
-1. Create a new workflow file in your repository's `.github/workflows` directory. For example `pull-request.yml`.
-2. Add the following code to the workflow file:
+4. Add the following code to the workflow file:
 
 ```yaml
 name: Pull Request
@@ -128,13 +125,13 @@ jobs:
         run: npm run build
 
       - name: Check for changesets
-        uses: cadamsdev/lazy-changesets-action@v0
+        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 // v0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGESET_COMMAND: 'npm run changeset'
 ```
 
-3. Setup the [lazy-changesets CLI](https://github.com/cadamsdev/lazy-changesets) in your project:
+5. Setup the [lazy-changesets CLI](https://github.com/cadamsdev/lazy-changesets) in your project:
 
 ## 📝 Changeset Types
 
