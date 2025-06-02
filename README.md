@@ -79,7 +79,7 @@ jobs:
 
       - name: Create Release PR or Publish Release
         id: release
-        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 // v0.1.0
+        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 # v0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -125,7 +125,7 @@ jobs:
         run: npm run build
 
       - name: Check for changesets
-        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 // v0.1.0
+        uses: cadamsdev/lazy-changesets-action@348a2bbac69927b034ec53ddb4783db2312c6289 # v0.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGESET_COMMAND: 'npm run changeset'
