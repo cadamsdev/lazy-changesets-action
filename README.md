@@ -11,9 +11,7 @@ If you enjoy the tool, please consider giving it a star ⭐️ on GitHub! Also i
 ## 📚 Table of Contents
 
 - [✨ Features](#-features)
-- [🚀 Usage](#-usage)
-  - [Release Workflow](#release-workflow)
-  - [Pull Request Workflow](#pull-request-workflow)
+- [🛠️ Setup](#-setup)
 - [📝 Changeset Types](#-changeset-types)
 - [⚙️ Configuration](#-configuration)
   - [Inputs](#inputs)
@@ -40,7 +38,7 @@ If you enjoy the tool, please consider giving it a star ⭐️ on GitHub! Also i
 
 - Supports GitHub Enterprise
 
-## 🚀 Usage
+## 🛠️ Setup
 
 1. Create a new workflow file in your repository's `.github/workflows` directory. For example `release.yml` (You can name it anything you like).
 2. Add the following code to the workflow file:
@@ -132,6 +130,7 @@ jobs:
 ```
 
 5. Setup the [lazy-changesets CLI](https://github.com/cadamsdev/lazy-changesets) in your project:
+6. Also make sure to set the github action permissions to allow the action to create and approve pull requests. See the [Permissions](#-permissions) section below for more details.
 
 ## 📝 Changeset Types
 
@@ -198,6 +197,85 @@ example
   if: steps.changesets.outputs.published == 'true'
   run: |
     echo "Run a script after packages have been published"
+```
+
+### Config file
+
+You can also update the config file `.changeset/config.json` in your repo.
+
+```json
+{
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [],
+  "access": "restricted",
+  "lazyChangesets": {
+    "types": {
+      "feat": {
+        "displayName": "New Features",
+        "emoji": "🚀",
+        "sort": 0,
+        "releaseType": "minor",
+        "promptBreakingChange": true
+      },
+      "fix": {
+        "displayName": "Bug Fixes",
+        "emoji": "🐛",
+        "sort": 1,
+        "promptBreakingChange": true
+      },
+      "perf": {
+        "displayName": "Performance Improvements",
+        "emoji": "⚡️",
+        "sort": 2,
+        "promptBreakingChange": true
+      },
+      "chore": {
+        "displayName": "Chores",
+        "emoji": "🏠",
+        "sort": 3
+      },
+      "docs": {
+        "displayName": "Documentation",
+        "emoji": "📚",
+        "sort": 4
+      },
+      "style": {
+        "displayName": "Styles",
+        "emoji": "🎨",
+        "sort": 5
+      },
+      "refactor": {
+        "displayName": "Refactoring",
+        "emoji": "♻️",
+        "sort": 6,
+        "promptBreakingChange": true
+      },
+      "test": {
+        "displayName": "Tests",
+        "emoji": "✅",
+        "sort": 7
+      },
+      "build": {
+        "displayName": "Build",
+        "emoji": "📦",
+        "sort": 8,
+        "promptBreakingChange": true
+      },
+      "ci": {
+        "displayName": "Automation",
+        "emoji": "🤖",
+        "sort": 9
+      },
+      "revert": {
+        "displayName": "Reverts",
+        "emoji": "⏪",
+        "sort": 10,
+        "promptBreakingChange": true
+      }
+    }
+  }
+}
 ```
 
 ## 🔒 Permissions
