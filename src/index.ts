@@ -5,7 +5,7 @@ import { createGitHubRelease, createOrUpdatePR, updateOrCreatePRComment } from '
 import { ChangesetEntry, generateMarkdown, getMarkdownForEntry } from './utils/markdown-utils';
 import { getChangeSetMap, getTagNameForEntry } from './utils/changeset-utils';
 import { createOrUpdateChangelog, packageMetadata } from './utils/changelog-utils';
-import { applyNewVersion, scanDirForPackagePaths } from './package';
+import { applyNewVersion, getSafeOutputName, scanDirForPackagePaths } from './package';
 import { deleteFiles, getDirectoryPath } from './utils/file-utils';
 import { CHANGESET_COMMAND, CREATE_GITHUB_RELEASES, GITHUB_TOKEN, NPM_TOKEN, RELEASE_BRANCH_NAME, RELEASE_PR_TITLE } from './constants';
 import { detect } from 'package-manager-detector/detect';
@@ -215,6 +215,7 @@ async function handlePublish(config: ChangesetConfig) {
 
   // publish packages
   publishPackages(config);
+  setPackageVersionOutputs(changesetMap);
 
   if (CREATE_GITHUB_RELEASES) {
     console.log('Creating GitHub releases...');
@@ -252,6 +253,18 @@ async function handlePublish(config: ChangesetConfig) {
   } else {
     console.log('Skipping GitHub release creation.');
   }
+}
+
+function setPackageVersionOutputs(changesetMap: Map<string, ChangesetEntry>) {
+  changesetMap.forEach((entry, packageName) => {
+    const packageData = packageMetadata.get(packageName);
+    if (!packageData) {
+      console.warn(`No metadata found for package: ${packageName}`);
+      return;
+    }
+    const safeOutputName = getSafeOutputName(packageName);
+    setOutput(`${safeOutputName}_version`, entry.version);
+  });
 }
 
 function getDeletedChangesetFilesFromMerge(): string[] {
