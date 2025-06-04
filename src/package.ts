@@ -1,10 +1,10 @@
-import { readFileSync, writeFileSync } from "fs";
-import { ChangesetEntry } from "./utils/markdown-utils";
-import { packageMetadata } from "./utils/changelog-utils";
+import { readFileSync, writeFileSync } from 'fs';
+import { ChangesetEntry } from './utils/markdown-utils';
+import { packageMetadata } from './utils/changelog-utils';
 import semver from 'semver';
-import { globSync } from "tinyglobby";
-import path from "path";
-import { ChangesetConfig } from "./changeset";
+import { globSync } from 'tinyglobby';
+import path from 'path';
+import { ChangesetConfig } from './changeset';
 
 export function applyNewVersion(
   changesetMap: Map<string, ChangesetEntry>,
@@ -78,7 +78,8 @@ export function applyNewVersion(
     if (packageData) {
       packageData.dependencyUpdates = updates;
       console.log(
-        `Updated ${updates.length} dependencies for package ${packageName}`);
+        `Updated ${updates.length} dependencies for package ${packageName}`,
+      );
     }
   });
 }
@@ -221,7 +222,7 @@ export function updateDependencyVersion(
  */
 function shouldUpdateDependency(
   releaseType: 'major' | 'minor' | 'patch',
-  updateStrategy: 'patch' | 'minor' | 'major' | 'none'
+  updateStrategy: 'patch' | 'minor' | 'major' | 'none',
 ): boolean {
   switch (updateStrategy) {
     case 'patch':
@@ -270,7 +271,10 @@ export function scanDirForPackagePaths(): void {
   });
 }
 
-function getSemverForChangesetEntry(config: ChangesetConfig, entry: ChangesetEntry) {
+function getSemverForChangesetEntry(
+  config: ChangesetConfig,
+  entry: ChangesetEntry,
+) {
   if (entry.breakingChanges.length) {
     return 'major';
   }
@@ -284,4 +288,8 @@ function getSemverForChangesetEntry(config: ChangesetConfig, entry: ChangesetEnt
   }
 
   return 'patch';
+}
+
+export function getSafeOutputName(packageName: string): string {
+  return packageName.replace(/^@[^/]+\//, '');
 }

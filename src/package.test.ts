@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { updateDependencyVersion } from './package';
+import { getSafeOutputName, updateDependencyVersion } from './package';
 
 describe('updateDependencyVersion', () => {
   it('should update standard caret dependencies', () => {
@@ -187,5 +187,11 @@ describe('updateDependencyVersion', () => {
     // File dependencies should not be updated since they're not version-based
     expect(result.updated).toBe(false);
     expect(result.content).toContain('"test-package": "file:../some-local-package"');
+  });
+
+  it('should set safe output name', () => {
+    const packageName = '@cadamsdev/lazy-changesets-action';
+    const safeOutputName = getSafeOutputName(packageName);
+    expect(safeOutputName).toBe('lazy-changesets-action');
   });
 });
