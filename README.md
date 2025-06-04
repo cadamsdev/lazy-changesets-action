@@ -180,9 +180,10 @@ examples
 
 ### Output Params
 
-| Output Name | Description                                                                        |
-| ----------- | ---------------------------------------------------------------------------------- |
-| `published` | The flag that indicates the packages have been published to npm or GitHub packages |
+| Output Name              | Description                                                                        |
+| ------------------------ | ---------------------------------------------------------------------------------- |
+| `published`              | The flag that indicates the packages have been published to npm or GitHub packages |
+| `<package-name>_version` | The updated version number of the package (without scope) after processing        |
 
 example
 
@@ -197,6 +198,11 @@ example
   if: steps.changesets.outputs.published == 'true'
   run: |
     echo "Run a script after packages have been published"
+
+- name: Get new package version
+  if: ${{ steps.changesets.outputs.my-package_version != '' }}
+  run: |
+    echo "Package versions: ${{ steps.changesets.outputs.my-package_version }}"
 ```
 
 ### Config file
