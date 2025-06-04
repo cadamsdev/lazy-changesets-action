@@ -1,3 +1,4 @@
+import { ChangesetConfig } from "../changeset";
 import { PackageMetadata } from "./changelog-utils";
 
 export interface ChangesetEntry {
@@ -15,21 +16,9 @@ export interface TypeData {
   sortOrder: number;
 }
 
-export const typeToDataDict: { [key: string]: TypeData } = {
-  feat: { emoji: '🚀', sortOrder: 0 },
-  fix: { emoji: '🛠️', sortOrder: 1 },
-  perf: { emoji: '⚡️', sortOrder: 2 },
-  chore: { emoji: '🏠', sortOrder: 3 },
-  docs: { emoji: '📚', sortOrder: 4 },
-  style: { emoji: '🎨', sortOrder: 5 },
-  refactor: { emoji: '♻️', sortOrder: 6 },
-  test: { emoji: '✅', sortOrder: 7 },
-  build: { emoji: '📦', sortOrder: 8 },
-  ci: { emoji: '🤖', sortOrder: 9 },
-  revert: { emoji: '⏪', sortOrder: 10 },
-};
+export function generateMarkdown(config: ChangesetConfig, packageData: Map<string, PackageMetadata>, changesetMap: Map<string, ChangesetEntry>) {
+  const changesetTypes = config.lazyChangesets.types;
 
-export function generateMarkdown(packageData: Map<string, PackageMetadata>, changesetMap: Map<string, ChangesetEntry>) {
   let markdown = '# Releases\n\n';
 
   const sortedPackages = Array.from(packageData).sort((a, b) => {
@@ -76,8 +65,8 @@ export function generateMarkdown(packageData: Map<string, PackageMetadata>, chan
       }
 
       const buckets = Object.keys(entry.buckets).sort((a, b) => {
-        const orderA = typeToDataDict[a]?.sortOrder ?? Infinity;
-        const orderB = typeToDataDict[b]?.sortOrder ?? Infinity;
+        const orderA = changesetTypes[a]?.sort ?? Infinity;
+        const orderB = changesetTypes[b]?.sort ?? Infinity;
         return orderA - orderB;
       });
 
@@ -87,7 +76,7 @@ export function generateMarkdown(packageData: Map<string, PackageMetadata>, chan
           return;
         }
 
-        markdown += `### ${typeToDataDict[type].emoji} ${type}\n`;
+        markdown += `### ${changesetTypes[type].emoji} ${changesetTypes[type].displayName}\n`;
         content.forEach((entry) => {
           markdown += `- ${entry}\n`;
         });
@@ -119,9 +108,12 @@ export function generateMarkdown(packageData: Map<string, PackageMetadata>, chan
 }
 
 export function getMarkdownForEntry(
+  config: ChangesetConfig,
   packageMetadata: Map<string, PackageMetadata>,
   entry: ChangesetEntry,
 ): string {
+  const changesetTypes = config.lazyChangesets.types;
+
   let markdown = '';
 
   if (entry.breakingChanges.length > 0) {
@@ -132,8 +124,8 @@ export function getMarkdownForEntry(
   }
 
   const buckets = Object.keys(entry.buckets).sort((a, b) => {
-    const orderA = typeToDataDict[a]?.sortOrder ?? Infinity;
-    const orderB = typeToDataDict[b]?.sortOrder ?? Infinity;
+    const orderA = changesetTypes[a]?.sort ?? Infinity;
+    const orderB = changesetTypes[b]?.sort ?? Infinity;
     return orderA - orderB;
   });
 
@@ -143,7 +135,8 @@ export function getMarkdownForEntry(
       return;
     }
 
-    markdown += `### ${typeToDataDict[type].emoji} ${type}\n`;
+    const changesetType = changesetTypes[type];
+    markdown += `### ${changesetType.emoji} ${changesetType.displayName}\n`;
     content.forEach((entry) => {
       markdown += `- ${entry}\n`;
     });

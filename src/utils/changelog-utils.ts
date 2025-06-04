@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
-import { ChangesetEntry, typeToDataDict } from "./markdown-utils";
+import { ChangesetEntry } from "./markdown-utils";
 import { join } from "path";
+import { ChangesetConfig } from "../changeset";
 
 export interface PackageMetadata {
   path: string;
@@ -18,7 +19,7 @@ export interface PackageMetadata {
 
 export const packageMetadata = new Map<string, PackageMetadata>();
 
-export function createOrUpdateChangelog(changesetMap: Map<string, ChangesetEntry>) {
+export function createOrUpdateChangelog(config: ChangesetConfig, changesetMap: Map<string, ChangesetEntry>) {
   Array.from(changesetMap.entries()).forEach(([packageName, entry]) => {
     const metadata = packageMetadata.get(packageName);
     if (!metadata) {
@@ -33,6 +34,7 @@ export function createOrUpdateChangelog(changesetMap: Map<string, ChangesetEntry
       let content = `# ${packageName}\n\n`;
 
       const changelogContent = getChangelogContent(
+        config,
         metadata,
         entry,
       );
@@ -57,6 +59,7 @@ export function createOrUpdateChangelog(changesetMap: Map<string, ChangesetEntry
       console.log(`Updating changelog file at ${changelogPath}`);
 
       const newContent = getChangelogContent(
+        config,
         metadata,
         entry,
       );
@@ -75,9 +78,12 @@ export function createOrUpdateChangelog(changesetMap: Map<string, ChangesetEntry
 }
 
 function getChangelogContent(
+  config: ChangesetConfig,
   packageMetaData: PackageMetadata,
   entry: ChangesetEntry,
 ): string {
+  const changesetTypes = config.lazyChangesets.types;
+
   let content = `## ${packageMetaData.newVersion}\n\n`;
 
   if (entry.breakingChanges.length > 0) {
@@ -88,8 +94,8 @@ function getChangelogContent(
   }
 
   const buckets = Object.keys(entry.buckets).sort((a, b) => {
-    const orderA = typeToDataDict[a]?.sortOrder ?? Infinity;
-    const orderB = typeToDataDict[b]?.sortOrder ?? Infinity;
+    const orderA = changesetTypes[a]?.sort ?? Infinity;
+    const orderB = changesetTypes[b]?.sort ?? Infinity;
     return orderA - orderB;
   });
 
@@ -99,7 +105,8 @@ function getChangelogContent(
       return;
     }
 
-    content += `### ${typeToDataDict[bucket].emoji} ${bucket}\n`;
+    const changesetType = changesetTypes[bucket];
+    content += `### ${changesetType.emoji} ${changesetType.displayName}\n`;
     items.forEach((entry) => {
       content += `- ${entry}\n`;
     });

@@ -4,7 +4,7 @@ import { packageMetadata } from "./utils/changelog-utils";
 import semver from 'semver';
 import { globSync } from "tinyglobby";
 import path from "path";
-import { ChangesetConfig } from './config';
+import { ChangesetConfig } from "./changeset";
 
 export function applyNewVersion(
   changesetMap: Map<string, ChangesetEntry>,
@@ -36,7 +36,7 @@ export function applyNewVersion(
     const oldVersion =
       /"version":\s*"(\d+\.\d+\.\d+)"/.exec(packageJsonContent)?.[1] || '';
 
-    const releaseType = getSemverForChangesetEntry(value);
+    const releaseType = getSemverForChangesetEntry(config, value);
     const newVersion = semver.inc(oldVersion, releaseType);
     console.log(
       `Bumping version for ${key} from ${oldVersion} to ${newVersion}`,
@@ -270,13 +270,16 @@ export function scanDirForPackagePaths(): void {
   });
 }
 
-function getSemverForChangesetEntry(entry: ChangesetEntry) {
+function getSemverForChangesetEntry(config: ChangesetConfig, entry: ChangesetEntry) {
   if (entry.breakingChanges.length) {
     return 'major';
   }
 
-  const buckets = Object.keys(entry.buckets);
-  if (buckets.includes('feat')) {
+  const isMinor = Object.keys(entry.buckets).some(
+    (type) => config.lazyChangesets.types[type]?.releaseType === 'minor',
+  );
+
+  if (isMinor) {
     return 'minor';
   }
 
